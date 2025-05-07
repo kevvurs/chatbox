@@ -1,10 +1,10 @@
-
 package main
 
 import (
 	"fmt"
-	"strconv"
 	"syscall/js"
+
+	"github.com/kevvurs/chatbox/html"
 )
 
 func main() {
@@ -12,18 +12,18 @@ func main() {
 
 	// create the elements
 	document := js.Global().Get("document")
-	background := createDiv(document, "bg-secondary d-flex " +
+	background := html.CreateDiv(document, "bg-secondary d-flex " +
 	  "align-items-center justify-content-center vh-100")
-	foreground := createDiv(document, "card bg-dark text-light p-4 " +
+	foreground := html.CreateDiv(document, "card bg-dark text-light p-4 " +
 		"mx-4 my-auto rounded shadow-lg w3-card-4")
-	title := createTitle(document, 1, "",
+	title := html.CreateTitle(document, 1, "",
 		`Welcome to WebAssembly UI!`)
-	description := createParagraph(document, "",
+	description := html.CreateParagraph(document, "",
 	"This page was created using Go WASM. All the DOM elements are" +
 	" generated with WASM and assembled into the DOM at runtime. A" +
 	" driver script runs a .wasm binary file in the <head> tag to " +
 	" execute the Go code responsible for this page.")
-	code := createPre(document, "p-4 text-dark bg-light")
+	code := html.CreatePre(document, "p-4 text-dark bg-light")
 	code.Set("innerText",
 		`document := js.Global().Get("document")
 background := createDiv(document,
@@ -37,55 +37,17 @@ description := createText(document, "",
 	generated with WASM and assembled into the DOM at runtime. A driver
 	script runs a .wasm binary file in the <head> tag to execute the Go
 	code responsible for this page."")`)
-	link := createAnchor(document, "my-auto link-danger", "Learn more at seedshare.io",
+	link := html.CreateAnchor(document, "my-auto link-danger", "Learn more at seedshare.io",
 		"https://seedshare.io/blog/wasm")
 
 	// assemble the structure
-	appendToDiv(foreground, title)
-	appendToDiv(foreground, description)
-	appendToDiv(foreground, code)
-	appendToDiv(foreground, link)
-	appendToDiv(background, foreground)
+	html.AppendToDiv(foreground, title)
+	html.AppendToDiv(foreground, description)
+	html.AppendToDiv(foreground, code)
+	html.AppendToDiv(foreground, link)
+	html.AppendToDiv(background, foreground)
 
 	// manipulate the dom
 	document.Get("body").Call("appendChild", background)
 	fmt.Println("Web = Assembled!")
-}
-
-func createElement(dom js.Value, tag, class string) js.Value {
-	div := dom.Call("createElement", tag)
-	div.Set("className", class)
-	return div
-}
-
-func createDiv(dom js.Value, class string) js.Value {
-	return createElement(dom, "div", class)
-}
-
-func createPre(dom js.Value, class string) js.Value {
-	return createElement(dom, "pre", class)
-}
-
-func createText(dom js.Value, tag, class, content string) js.Value {
-	element := createElement(dom, tag, class)
-	element.Set("innerText", content)
-	return element
-}
-
-func createTitle(dom js.Value, size int, class, content string) js.Value {
-	return createText(dom, "h" + strconv.Itoa(size), class, content)
-}
-
-func createParagraph(dom js.Value, class, content string) js.Value {
-	return createText(dom, "p", class, content)
-}
-
-func createAnchor(dom js.Value, class, content, url string) js.Value {
-	element := createText(dom, "a", class, content)
-	element.Set("href", url)
-	return element
-}
-
-func appendToDiv(div, child js.Value) {
-	div.Call("appendChild", child)
 }
