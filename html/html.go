@@ -1,4 +1,4 @@
-package shared
+package html
 
 import (
 	"strconv"
@@ -12,29 +12,29 @@ func CreateElement(dom js.Value, tag, class string) js.Value {
 }
 
 func CreateDiv(dom js.Value, class string) js.Value {
-	return createElement(dom, "div", class)
+	return CreateElement(dom, "div", class)
 }
 
 func CreatePre(dom js.Value, class string) js.Value {
-	return createElement(dom, "pre", class)
+	return CreateElement(dom, "pre", class)
 }
 
 func CreateText(dom js.Value, tag, class, content string) js.Value {
-	element := createElement(dom, tag, class)
+	element := CreateElement(dom, tag, class)
 	element.Set("innerText", content)
 	return element
 }
 
 func CreateTitle(dom js.Value, size int, class, content string) js.Value {
-	return createText(dom, "h" + strconv.Itoa(size), class, content)
+	return CreateText(dom, "h" + strconv.Itoa(size), class, content)
 }
 
 func CreateParagraph(dom js.Value, class, content string) js.Value {
-	return createText(dom, "p", class, content)
+	return CreateText(dom, "p", class, content)
 }
 
 func CreateAnchor(dom js.Value, class, content, url string) js.Value {
-	element := createText(dom, "a", class, content)
+	element := CreateText(dom, "a", class, content)
 	element.Set("href", url)
 	return element
 }
