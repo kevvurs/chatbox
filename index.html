@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
+    <style>
+      /* Chatbox.css  */
+      .chatwindow {
+        max-width: 285px;
+        min-height: 415px;
+        left: 24px;
+        bottom: 24px;
+      }
+
+      .chatstream {
+        min-height: 315px;        
+      }
+
+      @media (min-width: 768px) {
+        .chatwindow {
+          max-width: 335px;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .chatwindow {
+          max-width: 415px;
+        }
+      }
+    </style>
+    <script src="wasm_exec.js"></script>
+    <script>
+      const go = new Go();
+      WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject)
+        .then(result => {
+          go.run(result.instance);
+        });
+    </script>
+    <script>
+      WebAssembly.instantiateStreaming(fetch("chat.wasm"), go.importObject)
+        .then(result => {
+          go.run(result.instance);
+        });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
