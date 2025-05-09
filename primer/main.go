@@ -41,11 +41,11 @@ description := createText(document, "",
 		"https://seedshare.io/blog/wasm")
 
 	// assemble the structure
-	html.AppendToDiv(foreground, title)
-	html.AppendToDiv(foreground, description)
-	html.AppendToDiv(foreground, code)
-	html.AppendToDiv(foreground, link)
-	html.AppendToDiv(background, foreground)
+	html.Append(foreground, title)
+	html.Append(foreground, description)
+	html.Append(foreground, code)
+	html.Append(foreground, link)
+	html.Append(background, foreground)
 
 	// manipulate the dom
 	document.Get("body").Call("appendChild", background)

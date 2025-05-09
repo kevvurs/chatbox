@@ -33,12 +33,38 @@ func CreateParagraph(dom js.Value, class, content string) js.Value {
 	return CreateText(dom, "p", class, content)
 }
 
+func CreateItalic(dom js.Value, class, content string) js.Value {
+	return CreateText(dom, "i", class, content)
+}
+
 func CreateAnchor(dom js.Value, class, content, url string) js.Value {
 	element := CreateText(dom, "a", class, content)
 	element.Set("href", url)
 	return element
 }
 
-func AppendToDiv(div, child js.Value) {
-	div.Call("appendChild", child)
+func CreateButton(dom js.Value, class string) js.Value {
+	element := CreateElement(dom, "button", class)
+	element.Set("type", "button")
+	return element
+}
+
+func CreateInput(dom js.Value, _type, class string) js.Value {
+	element := CreateElement(dom, "input", class)
+	element.Set("type", _type)
+	return element
+}
+
+func CreateSpan(dom js.Value, class string) js.Value {
+	element := CreateElement(dom, "span", class)
+	return element
+}
+
+func CreateLine(dom js.Value, class string) js.Value {
+	element := CreateElement(dom, "hr", class)
+	return element
+}
+
+func Append(parent, child js.Value) {
+	parent.Call("appendChild", child)
 }
